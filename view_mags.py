@@ -10,7 +10,7 @@ import sys
 sys.path.append("..")
 
 import magsimulator
-import magcadexporter
+# import magcadexporter
 import numpy as np
 import matplotlib.pyplot as plt
 import magpylib as magpy
@@ -30,7 +30,7 @@ from pymoo.optimize import minimize
 from pymoo.core.problem import ElementwiseProblem
 from pymoo.algorithms.soo.nonconvex.brkga import BRKGA
 
-filename= 'test_noconstraint_SAS_12mags_500iterations.xlsx'
+filename= 'passive_shim_eta_1279.9504.xlsx'
 
 mag_vect = [1270,0,0] # set mag_vector? 
 ledger, magnets = magsimulator.load_magnet_positions(filename, mag_vect) # load magnet positions 
@@ -48,4 +48,7 @@ eta, meanB0, col_magnet, B = magsimulator.simulate_ledger(magnets,col_sensors,
                                                          True,False,None,False) # simulate the magnets on sensor positions , magnets and their positions 
 print('mean B0='+str(round(meanB0,3)) +  ' homogeneity=' + str(round(eta,3))) # print
 
-#magsimulator.plot_3D_field(B,Bcomponent=0,xmin=-100,xmax=100,ymin=-100,ymax=100,zmin=-100, zmax=100)
+data=magsimulator.extract_3Dfields(col_magnet,xmin=-70,xmax=70,ymin=-70,ymax=70,zmin=-70, zmax=70, numberpoints_per_ax = 11,filename=None,plotting=True,Bcomponent=0) #homogeneity figure
+magsimulator.plot_3D_field(data['Bfield'],Bcomponent=0) # does the same thing as the previous function - from an older version? 
+print('done')
+# magsimulator.plot_3D_field(B,Bcomponent=0,xmin=-70,xmax=70,ymin=-70,ymax=70,zmin=-70, zmax=70)
